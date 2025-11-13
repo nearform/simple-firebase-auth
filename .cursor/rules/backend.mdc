@@ -1,6 +1,6 @@
 ---
 description: Guidelines for backend code
-globs: backend/**/*.js
+globs: packages/simple-firebase-auth-backend/**/*.js
 alwaysApply: false
 ---
 
