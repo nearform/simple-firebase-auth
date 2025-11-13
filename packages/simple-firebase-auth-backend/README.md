@@ -1,8 +1,12 @@
 # @nearform/simple-firebase-auth-backend
 
-Simple Firebase authentication for Cloud Functions backend with Fastify.
+Simple, opinionated Firebase authentication for Cloud Functions backend with Fastify.
 
-Zero runtime dependencies. Peer dependencies only.
+Use this if you have a simple app that needs Google-based auth and you want protected routes/APIs on the backend and you're OK with this specific mix:
+
+- 🔥 [Firebase Authentication](https://firebase.google.com/docs/auth)
+- ☁️ Google [Cloud Functions for Firebase](https://firebase.google.com/docs/functions) runtime
+- ⚡ [Fastify](https://fastify.dev/) server abstraction
 
 ## Installation
 
@@ -19,6 +23,8 @@ npm install firebase-admin firebase-functions fastify @fastify/auth
 ```
 
 ## Prerequisites
+
+You'll need to set up a Firebase project with authentication and cloud functions, which we won't cover here.
 
 **IMPORTANT**: You must initialize Firebase Admin yourself. This package does NOT call `admin.initializeApp()`.
 
