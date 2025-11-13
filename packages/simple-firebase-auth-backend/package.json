@@ -15,8 +15,7 @@
     ".": "./src/index.js"
   },
   "files": [
-    "src",
-    "README.md"
+    "src"
   ],
   "engines": {
     "node": ">=18.0.0"

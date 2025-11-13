@@ -15,8 +15,7 @@
     ".": "./src/index.js"
   },
   "files": [
-    "src",
-    "README.md"
+    "src"
   ],
   "peerDependencies": {
     "firebase": ">=10.0.0",

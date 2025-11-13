@@ -1,10 +1,12 @@
 # @nearform/simple-firebase-auth-frontend
 
-Simple Firebase authentication for React frontend with Google Sign-In.
+Simple, opinionated Firebase authentication for React apps with Google Sign-In.
 
-Zero runtime dependencies. Peer dependencies only. ESM.sh compatible.
+## Conventional (Installed) Usage
 
-## Installation
+You can install and use this library as part of a normal, built (vite, webpack, whatever) frontend React app.
+
+### Installation
 
 ```bash
 npm install @nearform/simple-firebase-auth-frontend
@@ -97,7 +99,7 @@ function MyComponent() {
 
 ## Using with ESM.sh (No Build Step)
 
-You can use this package directly in the browser with esm.sh and import maps:
+Alternately, if you have a frontend application that gets ESM dependencies from a CDN, you can just add a few lines to your `importmap` and be off to the races! Here's a working example:
 
 ```html
 <!DOCTYPE html>
