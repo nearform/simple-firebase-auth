@@ -1,0 +1,52 @@
+---
+description: Guidelines for backend code
+globs: backend/**/*.js
+alwaysApply: false
+---
+
+# Backend Development Guidelines
+
+## Core Philosophy
+
+The backend uses pure JavaScript with minimal dependencies, focusing on simplicity, performance, and maintainability. All code should be readable, well-documented, and follow modern JavaScript best practices.
+
+It should also be **pure JavaScript**.
+
+## Server Framework
+
+### Fastify
+- Use [Fastify](https://www.fastify.io/) as the primary web framework
+- Leverage Fastify's built-in performance optimizations and plugin system
+- Follow Fastify's [official documentation](https://www.fastify.io/docs/latest/) for best practices
+
+## Dependencies
+
+### Minimal Dependencies
+- **Core**: Only essential packages for functionality
+- **Fastify**: Web framework and core server functionality
+
+## Project Structure
+
+### File Naming
+- Use kebab-case for file and directory names
+- Use descriptive names that indicate purpose
+- Group related functionality in subdirectories
+- Keep main server file as `backend/server.js`
+
+## Error Handling
+
+### Error Management
+- Use Fastify's built-in error handling
+- Return consistent error response formats
+- Log errors appropriately
+
+```javascript
+// Example error handling
+fastify.setErrorHandler((error, request, reply) => {
+  fastify.log.error(error);
+  reply.status(500).send({
+    error: 'Internal Server Error',
+    message: 'An unexpected error occurred'
+  });
+});
+```

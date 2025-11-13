@@ -1,0 +1,26 @@
+{
+  "name": "simple-firebase-auth",
+  "version": "0.0.1",
+  "description": "Simple Firebase Authentication.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nearform/simple-firebase-auth.git"
+  },
+  "homepage": "https://github.com/nearform/simple-firebase-auth",
+  "type": "module",
+  "workspaces": [
+    "packages/simple-firebase-auth-backend",
+    "packages/simple-firebase-auth-frontend"
+  ],
+  "scripts": {
+    "lint": "eslint . --fix",
+    "pretty": "prettier . --write",
+    "format": "npm run lint && npm run pretty"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.6.2"
+  }
+}

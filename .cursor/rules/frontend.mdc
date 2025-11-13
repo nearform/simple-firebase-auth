@@ -1,0 +1,30 @@
+---
+description: Guidelines for frontend code
+globs: packages/simple-firebase-auth-frontend
+alwaysApply: false
+---
+
+# Frontend Development Guidelines
+
+## Core Philosophy
+
+The frontend of this project uses modern web development without build tools. All code should run directly in the browser using native ES modules and modern JavaScript features.
+
+## ES Modules
+
+### Import/Export Usage
+- Use ES6 `import`/`export` syntax exclusively
+- Use relative paths for local modules: `./foo/bar.js`
+- Avoid bundling or transpilation
+
+## Import Maps
+## Browser Compatibility
+
+### Modern JavaScript Features
+- Use native ES6+ features (arrow functions, destructuring, template literals)
+- Use `const`/`let` instead of `var`
+- Use async/await for asynchronous operations
+- Use native fetch API for HTTP requests
+
+### React
+- Use Vanilla JavaScript, not JSX. We're not transpiling.
