@@ -1,0 +1,40 @@
+{
+  "name": "@nearform/simple-firebase-auth-backend",
+  "version": "0.1.0",
+  "description": "Simple Firebase authentication for Cloud Functions backend with Fastify",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nearform/simple-firebase-auth.git",
+    "directory": "packages/simple-firebase-auth-backend"
+  },
+  "homepage": "https://github.com/nearform/simple-firebase-auth/tree/main/packages/simple-firebase-auth-backend",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@fastify/auth": "^5.0.0",
+    "fastify": "^5.0.0",
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0"
+  },
+  "keywords": [
+    "firebase",
+    "authentication",
+    "auth",
+    "firebase-functions",
+    "cloud-functions",
+    "fastify",
+    "google-auth",
+    "backend"
+  ]
+}

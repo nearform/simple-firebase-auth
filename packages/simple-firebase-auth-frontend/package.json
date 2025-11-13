@@ -1,0 +1,35 @@
+{
+  "name": "@nearform/simple-firebase-auth-frontend",
+  "version": "0.1.0",
+  "description": "Simple Firebase authentication for React frontend with Google Sign-In",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nearform/simple-firebase-auth.git",
+    "directory": "packages/simple-firebase-auth-frontend"
+  },
+  "homepage": "https://github.com/nearform/simple-firebase-auth/tree/main/packages/simple-firebase-auth-frontend",
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "firebase": "^10.0.0 || ^11.0.0",
+    "react": "^18.0.0"
+  },
+  "keywords": [
+    "firebase",
+    "authentication",
+    "auth",
+    "react",
+    "google-auth",
+    "google-signin",
+    "frontend",
+    "esm"
+  ]
+}
