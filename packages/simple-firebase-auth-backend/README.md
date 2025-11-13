@@ -184,13 +184,14 @@ Validates the decoded token meets authentication requirements.
 
 ## Error Handling
 
-The package throws descriptive errors:
+The package throws some specific errors:
 
 - `"No authorization header provided"` - Missing or malformed Authorization header
-- `"Invalid authorization header"` - Token verification failed
 - `"Invalid email domain. Expected @domain.com, got user@other.com"` - Domain mismatch
 
-Handle these in your routes:
+and passes through other Firebase-generated authentication errors.
+
+You can handle these in your routes like:
 
 ```javascript
 addAuthRoutes: async (fastify) => {
@@ -278,20 +279,6 @@ export const api = adaptFastify({
     fastify.get("/protected", async () => ({
       data: "This requires authentication",
     }));
-
-    // POST example
-    fastify.post("/data", async (request) => {
-      const { decodedToken, body } = request;
-
-      // Save data associated with user
-      await admin
-        .firestore()
-        .collection("userData")
-        .doc(decodedToken.uid)
-        .set(body);
-
-      return { success: true };
-    });
   },
 });
 ```

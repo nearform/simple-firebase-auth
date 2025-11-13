@@ -16,13 +16,7 @@ export const getIdToken = async (request) => {
   }
 
   const idToken = request.headers.authorization.split("Bearer ")[1];
-  try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
-    return decodedToken;
-    // eslint-disable-next-line no-unused-vars
-  } catch (error) {
-    throw new Error("Invalid authorization header");
-  }
+  return admin.auth().verifyIdToken(idToken);
 };
 
 /**
