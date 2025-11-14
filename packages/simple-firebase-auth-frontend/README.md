@@ -79,7 +79,6 @@ import { AuthProvider } from "@nearform/simple-firebase-auth-frontend";
 
 function App() {
   const config = {
-    googleAuthDomain: "nearform.com", // Optional: restrict to email domain
     googleAuthOptions: {
       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
       customParameters: {
@@ -182,7 +181,6 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
 
       function App() {
         const config = {
-          googleAuthDomain: "nearform.com",
           googleAuthOptions: {
             scopes: ["https://www.googleapis.com/auth/userinfo.email"],
             customParameters: {
@@ -211,10 +209,9 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
 
 Pass a configuration object to `AuthProvider` via the `config` prop. All options are optional.
 
-| Option              | Type     | Default   | Description                                       |
-| ------------------- | -------- | --------- | ------------------------------------------------- |
-| `googleAuthDomain`  | `string` | `null`    | Email domain restriction (e.g., `"nearform.com"`) |
-| `googleAuthOptions` | `object` | See below | Google Auth Provider customization                |
+| Option              | Type     | Default   | Description                        |
+| ------------------- | -------- | --------- | ---------------------------------- |
+| `googleAuthOptions` | `object` | See below | Google Auth Provider customization |
 
 #### `googleAuthOptions` object
 
@@ -258,7 +255,6 @@ import { useAuth } from "@nearform/simple-firebase-auth-frontend";
 function MyComponent() {
   const auth = getAuth();
   const config = {
-    googleAuthDomain: "nearform.com",
     googleAuthOptions: {
       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
     },
@@ -307,7 +303,6 @@ import { AuthProvider } from "@nearform/simple-firebase-auth-frontend";
 function App() {
   const auth = getAuth();
   const config = {
-    googleAuthDomain: "nearform.com",
     googleAuthOptions: {
       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
     },
@@ -446,7 +441,6 @@ function DataDisplay() {
 // Main App
 function App() {
   const config = {
-    googleAuthDomain: "nearform.com",
     googleAuthOptions: {
       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
       customParameters: {

@@ -10,7 +10,6 @@ const AuthContext = createContext(null);
  * @param {Object} props
  * @param {import('firebase/auth').Auth} props.auth - Firebase Auth instance from getAuth()
  * @param {Object} props.config - Configuration object
- * @param {string|null} [props.config.googleAuthDomain] - Optional email domain restriction (e.g., "nearform.com")
  * @param {Object} [props.config.googleAuthOptions] - Optional Google Auth Provider customization
  * @param {string[]} [props.config.googleAuthOptions.scopes] - OAuth scopes to request
  * @param {Object} [props.config.googleAuthOptions.customParameters] - Custom parameters for Google Auth (hd, prompt, etc.)
@@ -24,7 +23,6 @@ const AuthContext = createContext(null);
  * function App() {
  *   const auth = getAuth();
  *   const config = {
- *     googleAuthDomain: "nearform.com",
  *     googleAuthOptions: {
  *       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
  *       customParameters: { hd: "nearform.com" }

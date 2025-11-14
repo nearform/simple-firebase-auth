@@ -12,7 +12,6 @@ import {
  *
  * @param {import('firebase/auth').Auth} auth - Firebase Auth instance from getAuth()
  * @param {Object} config - Configuration object
- * @param {string|null} [config.googleAuthDomain] - Optional email domain restriction (e.g., "nearform.com")
  * @param {Object} [config.googleAuthOptions] - Optional Google Auth Provider customization
  * @param {string[]} [config.googleAuthOptions.scopes] - OAuth scopes to request
  * @param {Object} [config.googleAuthOptions.customParameters] - Custom parameters for Google Auth (hd, prompt, etc.)
@@ -31,7 +30,6 @@ import {
  * function MyComponent() {
  *   const auth = getAuth();
  *   const config = {
- *     googleAuthDomain: "nearform.com",
  *     googleAuthOptions: {
  *       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
  *       customParameters: { hd: "nearform.com" }
@@ -84,11 +82,6 @@ export function useAuth(auth, config = {}) {
         display: "popup",
         ...googleAuthOptions.customParameters,
       };
-
-      // Add domain hint if configured
-      if (config.googleAuthDomain) {
-        customParams.hd = config.googleAuthDomain;
-      }
 
       provider.setCustomParameters(customParams);
 
