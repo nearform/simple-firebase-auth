@@ -10,5 +10,6 @@
  * @module @nearform/simple-firebase-auth-frontend
  */
 
+export { useAuth } from "./use-auth.js";
 export { AuthProvider, useAuthContext } from "./auth-context.js";
 export { fetchWithAuth } from "./fetch.js";
