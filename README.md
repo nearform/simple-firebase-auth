@@ -12,16 +12,21 @@ This monorepo contains two independent packages that work great together:
 
 React hooks and components for Firebase authentication with Google Sign-In.
 
-- Zero runtime dependencies
-- ESM.sh compatible for no-build workflows
-- React hooks (`useAuth`, `useAuthContext`)
-- Context provider (`AuthProvider`)
-- Authenticated fetch wrapper
-- Configurable domain restriction
-- Emulator support
-
 ```bash
-npm install @nearform/simple-firebase-auth-frontend
+$ npm install @nearform/simple-firebase-auth-frontend
+```
+
+_or_
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      // ...
+      "@nearform/simple-firebase-auth-frontend": "https://esm.sh/@nearform/simple-firebase-auth-frontend"
+    }
+  }
+</script>
 ```
 
 [Frontend Documentation →](./packages/simple-firebase-auth-frontend/README.md)
@@ -30,15 +35,8 @@ npm install @nearform/simple-firebase-auth-frontend
 
 Fastify adapter for Firebase Cloud Functions with authentication middleware.
 
-- Zero runtime dependencies
-- Built for Cloud Functions v2
-- Fastify-based routing
-- Token verification
-- Domain restriction support
-- Separate public/protected routes
-
 ```bash
-npm install @nearform/simple-firebase-auth-backend
+$ npm install @nearform/simple-firebase-auth-backend
 ```
 
 [Backend Documentation →](./packages/simple-firebase-auth-backend/README.md)
