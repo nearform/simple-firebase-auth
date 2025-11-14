@@ -11,7 +11,7 @@ Use this if you have a simple app that needs Google-based auth and you want prot
 ## Installation
 
 ```bash
-npm install @nearform/simple-firebase-auth-backend
+$ npm install @nearform/simple-firebase-auth-backend
 ```
 
 ### Peer Dependencies
@@ -19,7 +19,7 @@ npm install @nearform/simple-firebase-auth-backend
 You must also install these peer dependencies:
 
 ```bash
-npm install firebase-admin firebase-functions fastify @fastify/auth
+$ npm install firebase-admin firebase-functions fastify @fastify/auth
 ```
 
 ## Prerequisites
@@ -236,7 +236,7 @@ Configure URL rewriting to route requests to your Cloud Function:
 The package works with Firebase Emulators. Start them with:
 
 ```bash
-firebase emulators:start
+$ firebase emulators:start
 ```
 
 Your frontend should connect to the emulator (see frontend package documentation).

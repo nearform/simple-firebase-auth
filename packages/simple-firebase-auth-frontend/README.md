@@ -9,7 +9,7 @@ You can install and use this library as part of a normal, built (vite, webpack, 
 ### Installation
 
 ```bash
-npm install @nearform/simple-firebase-auth-frontend
+$ npm install @nearform/simple-firebase-auth-frontend
 ```
 
 ### Peer Dependencies
@@ -17,7 +17,7 @@ npm install @nearform/simple-firebase-auth-frontend
 You must also install these peer dependencies:
 
 ```bash
-npm install firebase react
+$ npm install firebase react
 ```
 
 ## Prerequisites
@@ -470,7 +470,7 @@ createRoot(document.getElementById("root")).render(<App />);
 1. Start Firebase emulators:
 
 ```bash
-firebase emulators:start
+$ firebase emulators:start
 ```
 
 2. Connect to the emulator in your code:

@@ -46,14 +46,14 @@ You must initialize Firebase yourself. We don't call `initializeApp()` or `admin
 ## Local Development
 
 ```bash
-npm install
-npm run format
+$ npm install
+$ npm run format
 ```
 
 Both packages support Firebase emulators:
 
 ```bash
-firebase emulators:start
+$ firebase emulators:start
 ```
 
 Connect frontend to emulator:
