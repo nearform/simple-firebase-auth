@@ -2,11 +2,7 @@
 
 Simple Firebase authentication packages for React frontend and Cloud Functions backend.
 
-**Zero runtime dependencies. Peer dependencies only.**
-
 ## Packages
-
-This monorepo contains two independent packages that work great together:
 
 ### [@nearform/simple-firebase-auth-frontend](./packages/simple-firebase-auth-frontend)
 
@@ -45,36 +41,39 @@ $ npm install @nearform/simple-firebase-auth-backend
 
 ### Prerequisites
 
-Both packages require **you** to initialize Firebase yourself. They do NOT call `initializeApp()` or `admin.initializeApp()`.
+You must initialize Firebase yourself. We don't call `initializeApp()` or `admin.initializeApp()`.
 
 ### Frontend
 
 ```javascript
 import { initializeApp } from "firebase/app";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 import {
-  initAuth,
   AuthProvider,
   useAuthContext,
 } from "@nearform/simple-firebase-auth-frontend";
 
-// Step 1: Initialize Firebase (YOUR responsibility)
-initializeApp({
+const app = initializeApp({
   apiKey: "...",
   authDomain: "...",
   projectId: "...",
-  // ... rest of config
 });
 
-// Step 2: Configure auth (optional)
-initAuth({
-  googleAuthDomain: "nearform.com",
-  emulatorAuthUrl: "http://127.0.0.1:9099",
-});
+const auth = getAuth(app);
 
-// Step 3: Use in your React app
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
+}
+
 function App() {
+  const config = {
+    googleAuthOptions: {
+      customParameters: { hd: "nearform.com" },
+    },
+  };
+
   return (
-    <AuthProvider>
+    <AuthProvider auth={auth} config={config}>
       <MyApp />
     </AuthProvider>
   );
@@ -98,20 +97,16 @@ import admin from "firebase-admin";
 import { setGlobalOptions } from "firebase-functions";
 import { adaptFastify } from "@nearform/simple-firebase-auth-backend";
 
-// Step 1: Initialize Firebase Admin (YOUR responsibility)
 admin.initializeApp();
 setGlobalOptions({ maxInstances: 5 });
 
-// Step 2: Create your API
 export const api = adaptFastify({
   googleAuthDomain: "nearform.com",
 
-  // Public routes (no auth)
   addNoAuthRoutes: async (fastify) => {
     fastify.get("/", async () => ({ message: "API works" }));
   },
 
-  // Protected routes (auth required)
   addAuthRoutes: async (fastify) => {
     fastify.get("/user", async (request) => ({
       email: request.decodedToken.email,
@@ -122,51 +117,27 @@ export const api = adaptFastify({
 
 ## Features
 
-### Frontend Features
+### Frontend
 
-- **React Hooks**: `useAuth()` and `useAuthContext()` for auth state
-- **Context Provider**: `<AuthProvider>` for app-wide auth
-- **Authenticated Fetch**: `fetchWithAuth()` wrapper with token injection
-- **Google Sign-In**: Popup-based authentication
-- **Domain Restriction**: Limit sign-ins to specific email domains
-- **Configurable**: Full control over Google Auth Provider options
-- **Emulator Support**: Automatic detection and connection
-- **Error Handling**: Graceful handling of auth errors
-- **ESM.sh Ready**: Use directly from CDN with import maps
+- React hooks (`useAuth`, `useAuthContext`) and `<AuthProvider>` context
+- `fetchWithAuth()` for authenticated requests
+- Google Sign-In popup with domain restriction
+- Emulator support
+- ESM.sh compatible
 
-### Backend Features
+### Backend
 
-- **Fastify Integration**: Fast, low-overhead routing
-- **Token Verification**: Automatic JWT validation
-- **Domain Restriction**: Validate user email domains
-- **Route Separation**: Distinct public and protected routes
-- **Middleware**: Auth preHandler for protected routes
-- **Error Messages**: Clear, actionable error responses
-- **Singleton Pattern**: Efficient instance reuse
-- **URL Rewriting**: Cloud Functions URL prefix handling
+- Fastify adapter for Cloud Functions
+- Automatic JWT verification and domain validation
+- Separate public and protected route handlers
+- URL rewriting for Firebase Hosting
 
 ## Design Philosophy
 
-### Zero Dependencies
-
-Both packages have **zero runtime dependencies**. All external libraries are peer dependencies, keeping your bundle small and avoiding version conflicts.
-
-### User Controls Firebase Init
-
-We **do not** call `initializeApp()` or `admin.initializeApp()`. You control Firebase initialization, giving you:
-
-- Full control over Firebase setup
-- Flexibility in configuration
-- Clear separation of concerns
-- No hidden magic
-
-### Minimal & Focused
-
-These packages do one thing well: Firebase authentication with Google Sign-In. They don't try to be everything.
-
-### ESM First
-
-Pure ES modules. Works with modern bundlers, import maps, and esm.sh.
+- **Zero runtime dependencies** - All external libraries are peer dependencies
+- **User controls Firebase init** - We don't call `initializeApp()` or `admin.initializeApp()`
+- **Minimal & focused** - Firebase authentication with Google Sign-In only
+- **ESM first** - Pure ES modules, works with bundlers and import maps
 
 ## Project Structure
 
@@ -184,8 +155,6 @@ simple-firebase-auth/
 │   └── simple-firebase-auth-frontend/
 │       ├── src/
 │       │   ├── index.js       # Main exports
-│       │   ├── config.js      # Config storage
-│       │   ├── auth.js        # Auth instance
 │       │   ├── use-auth.js    # Core hook
 │       │   ├── auth-context.js # React Context
 │       │   └── fetch.js       # Authenticated fetch
@@ -198,50 +167,34 @@ simple-firebase-auth/
 
 ## Local Development
 
-### Setup
-
 ```bash
-# Install dependencies
 npm install
-
-# Lint and format
 npm run format
 ```
 
-### Firebase Emulator
-
-Both packages support Firebase emulators for local development:
+Both packages support Firebase emulators:
 
 ```bash
 firebase emulators:start
 ```
 
-Configure frontend to use emulator:
+Connect frontend to emulator:
 
 ```javascript
-initAuth({
-  emulatorAuthUrl: "http://127.0.0.1:9099",
-});
+import { connectAuthEmulator } from "firebase/auth";
+
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
+}
 ```
 
-Backend automatically works with emulator when using `admin.initializeApp()` locally.
+Backend works automatically with emulator when using `admin.initializeApp()` locally.
 
 ## Use Cases
 
-### Perfect For
+**Perfect for:** Firebase Hosting + Cloud Functions, React + Firebase, ESM workflows, domain-restricted Google Sign-In.
 
-- Firebase Hosting + Cloud Functions apps
-- React frontends with Firebase backend
-- No-build ESM workflows
-- Domain-restricted authentication
-- Simple Google Sign-In flows
-
-### Not Designed For
-
-- Multiple auth providers (only Google Sign-In)
-- Custom UI flows (use Firebase Auth directly)
-- Non-React frameworks (frontend only)
-- Non-Fastify backends (backend only)
+**Not designed for:** Multiple auth providers, custom UI flows, non-React frontends, non-Fastify backends.
 
 ## Requirements
 
@@ -260,12 +213,7 @@ Backend automatically works with emulator when using `admin.initializeApp()` loc
 
 ## Contributing
 
-Issues and PRs welcome!
-
-1. Fork the repo
-2. Create a feature branch
-3. Make your changes
-4. Submit a PR
+Issues and PRs welcome. Fork, branch, change, PR.
 
 ## License
 
@@ -273,6 +221,4 @@ MIT
 
 ## Credits
 
-Built by [NearForm](https://nearform.com)
-
-Extracted from real-world Firebase applications for easier reuse and maintenance.
+Built by [NearForm](https://nearform.com). Extracted from real-world Firebase applications.
