@@ -71,7 +71,3 @@ Backend works automatically with emulator when using `admin.initializeApp()` loc
 ## License
 
 MIT
-
-## Credits
-
-Built by [NearForm](https://nearform.com).
