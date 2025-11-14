@@ -5,13 +5,17 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { auth } from "./auth.js";
-import { getConfig } from "./config.js";
 
 /**
  * React hook for Firebase authentication with Google Sign-In.
  * Manages auth state, sign in/out, and error handling.
  *
+ * @param {import('firebase/auth').Auth} auth - Firebase Auth instance from getAuth()
+ * @param {Object} config - Configuration object
+ * @param {string|null} [config.googleAuthDomain] - Optional email domain restriction (e.g., "nearform.com")
+ * @param {Object} [config.googleAuthOptions] - Optional Google Auth Provider customization
+ * @param {string[]} [config.googleAuthOptions.scopes] - OAuth scopes to request
+ * @param {Object} [config.googleAuthOptions.customParameters] - Custom parameters for Google Auth (hd, prompt, etc.)
  * @returns {Object} Auth state and methods
  * @returns {Object|null} returns.user - Current Firebase user or null
  * @returns {boolean} returns.loading - Whether auth state is loading
@@ -21,10 +25,19 @@ import { getConfig } from "./config.js";
  * @returns {Function} returns.signOut - Function to sign out
  *
  * @example
+ * import { getAuth } from 'firebase/auth';
  * import { useAuth } from '@nearform/simple-firebase-auth-frontend';
  *
  * function MyComponent() {
- *   const { user, loading, error, isSignedIn, signIn, signOut } = useAuth();
+ *   const auth = getAuth();
+ *   const config = {
+ *     googleAuthDomain: "nearform.com",
+ *     googleAuthOptions: {
+ *       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+ *       customParameters: { hd: "nearform.com" }
+ *     }
+ *   };
+ *   const { user, loading, error, isSignedIn, signIn, signOut } = useAuth(auth, config);
  *
  *   if (loading) return <div>Loading...</div>;
  *   if (error) return <div>Error: {error}</div>;
@@ -34,7 +47,7 @@ import { getConfig } from "./config.js";
  *     : <button onClick={signIn}>Sign In with Google</button>;
  * }
  */
-export function useAuth() {
+export function useAuth(auth, config = {}) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,25 +60,29 @@ export function useAuth() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [auth]);
 
   const signIn = async () => {
     try {
       setLoading(true);
       setError(null);
 
-      const config = getConfig();
+      const googleAuthOptions = config.googleAuthOptions || {
+        scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+        customParameters: {},
+      };
+
       const provider = new GoogleAuthProvider();
 
       // Add configured scopes
-      config.googleAuthOptions.scopes.forEach((scope) => {
+      googleAuthOptions.scopes.forEach((scope) => {
         provider.addScope(scope);
       });
 
       // Set custom parameters
       const customParams = {
         display: "popup",
-        ...config.googleAuthOptions.customParameters,
+        ...googleAuthOptions.customParameters,
       };
 
       // Add domain hint if configured

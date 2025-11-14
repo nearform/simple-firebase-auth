@@ -22,13 +22,14 @@ npm install firebase react
 
 ## Prerequisites
 
-**IMPORTANT**: You must initialize Firebase yourself. This package does NOT call `initializeApp()`.
+**IMPORTANT**: You must initialize Firebase yourself and call `getAuth()`. This package does NOT call `initializeApp()` or `getAuth()`.
 
 ```javascript
 import { initializeApp } from "firebase/app";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
-// YOU must do this before using the package
-initializeApp({
+// Step 1: Initialize Firebase (YOUR responsibility)
+const app = initializeApp({
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_AUTH_DOMAIN",
   projectId: "YOUR_PROJECT_ID",
@@ -36,6 +37,16 @@ initializeApp({
   messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
   appId: "YOUR_APP_ID",
 });
+
+// Step 2: Get Auth instance (YOUR responsibility)
+const auth = getAuth(app);
+
+// Step 3: Connect to emulator if needed (YOUR responsibility)
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+    disableWarnings: true,
+  });
+}
 ```
 
 Get your Firebase config from: [Firebase Console](https://console.firebase.google.com/) → Project Settings → General → Your apps
@@ -43,37 +54,43 @@ Get your Firebase config from: [Firebase Console](https://console.firebase.googl
 ## Quick Start
 
 ```javascript
-// Step 1: Initialize Firebase (YOUR responsibility)
+// Step 1: Initialize Firebase and get Auth instance (YOUR responsibility)
 import { initializeApp } from "firebase/app";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
-initializeApp({
+const app = initializeApp({
   apiKey: "...",
   authDomain: "...",
   projectId: "...",
   // ... rest of config
 });
 
-// Step 2: Optional - Configure auth package
-import { initAuth } from "@nearform/simple-firebase-auth-frontend";
+const auth = getAuth(app);
 
-initAuth({
-  googleAuthDomain: "nearform.com", // Optional: restrict to email domain
-  emulatorAuthUrl: "http://127.0.0.1:9099", // Optional: for local dev
-  googleAuthOptions: {
-    scopes: ["https://www.googleapis.com/auth/userinfo.email"],
-    customParameters: {
-      hd: "nearform.com", // Hosted domain hint
-      prompt: "select_account",
-    },
-  },
-});
+// Step 2: Connect to emulator if needed (YOUR responsibility)
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+    disableWarnings: true,
+  });
+}
 
 // Step 3: Wrap your app with AuthProvider
 import { AuthProvider } from "@nearform/simple-firebase-auth-frontend";
 
 function App() {
+  const config = {
+    googleAuthDomain: "nearform.com", // Optional: restrict to email domain
+    googleAuthOptions: {
+      scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+      customParameters: {
+        hd: "nearform.com", // Hosted domain hint
+        prompt: "select_account",
+      },
+    },
+  };
+
   return (
-    <AuthProvider>
+    <AuthProvider auth={auth} config={config}>
       <YourApp />
     </AuthProvider>
   );
@@ -124,14 +141,14 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
       import { createRoot } from "react-dom/client";
       import { createElement as h } from "react";
       import { initializeApp } from "firebase/app";
+      import { getAuth, connectAuthEmulator } from "firebase/auth";
       import {
-        initAuth,
         AuthProvider,
         useAuthContext,
       } from "@nearform/simple-firebase-auth-frontend";
 
       // Step 1: Initialize Firebase
-      initializeApp({
+      const app = initializeApp({
         apiKey: "YOUR_API_KEY",
         authDomain: "YOUR_AUTH_DOMAIN",
         projectId: "YOUR_PROJECT_ID",
@@ -140,13 +157,17 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
         appId: "YOUR_APP_ID",
       });
 
-      // Step 2: Configure auth (optional)
-      initAuth({
-        googleAuthDomain: "nearform.com",
-        emulatorAuthUrl: "http://127.0.0.1:9099",
-      });
+      // Step 2: Get Auth instance
+      const auth = getAuth(app);
 
-      // Step 3: Create your app
+      // Step 3: Connect to emulator if needed
+      if (window.location.hostname === "localhost") {
+        connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+          disableWarnings: true,
+        });
+      }
+
+      // Step 4: Create your app
       function SignInButton() {
         const { user, isSignedIn, signIn, signOut } = useAuthContext();
 
@@ -160,14 +181,24 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
       }
 
       function App() {
+        const config = {
+          googleAuthDomain: "nearform.com",
+          googleAuthOptions: {
+            scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+            customParameters: {
+              hd: "nearform.com",
+            },
+          },
+        };
+
         return h(
           AuthProvider,
-          null,
+          { auth, config },
           h("div", null, h("h1", null, "My App"), h(SignInButton)),
         );
       }
 
-      // Step 4: Render
+      // Step 5: Render
       createRoot(document.getElementById("root")).render(h(App));
     </script>
   </body>
@@ -176,14 +207,13 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
 
 ## Configuration Options
 
-### `initAuth(options)`
+### Config Object
 
-Optional configuration for the auth package. Call after `initializeApp()`.
+Pass a configuration object to `AuthProvider` via the `config` prop. All options are optional.
 
 | Option              | Type     | Default   | Description                                       |
 | ------------------- | -------- | --------- | ------------------------------------------------- |
 | `googleAuthDomain`  | `string` | `null`    | Email domain restriction (e.g., `"nearform.com"`) |
-| `emulatorAuthUrl`   | `string` | `null`    | Firebase Auth emulator URL for local dev          |
 | `googleAuthOptions` | `object` | See below | Google Auth Provider customization                |
 
 #### `googleAuthOptions` object
@@ -203,9 +233,14 @@ Optional configuration for the auth package. Call after `initializeApp()`.
 
 ### Hooks
 
-#### `useAuth()`
+#### `useAuth(auth, config)`
 
 Core authentication hook. Returns auth state and methods.
+
+**Parameters:**
+
+- `auth` - Firebase Auth instance from `getAuth()`
+- `config` - Optional configuration object (same structure as `AuthProvider` config prop)
 
 **Returns:**
 
@@ -217,10 +252,21 @@ Core authentication hook. Returns auth state and methods.
 - `signOut()` - Async function to sign out
 
 ```javascript
+import { getAuth } from "firebase/auth";
 import { useAuth } from "@nearform/simple-firebase-auth-frontend";
 
 function MyComponent() {
-  const { user, loading, error, isSignedIn, signIn, signOut } = useAuth();
+  const auth = getAuth();
+  const config = {
+    googleAuthDomain: "nearform.com",
+    googleAuthOptions: {
+      scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+    },
+  };
+  const { user, loading, error, isSignedIn, signIn, signOut } = useAuth(
+    auth,
+    config,
+  );
   // ... your logic
 }
 ```
@@ -248,12 +294,27 @@ function MyComponent() {
 
 Context provider that wraps your app. Uses `useAuth()` internally.
 
+**Props:**
+
+- `auth` (required) - Firebase Auth instance from `getAuth()`
+- `config` (optional) - Configuration object (see Configuration Options above)
+- `children` (required) - React children
+
 ```javascript
+import { getAuth } from "firebase/auth";
 import { AuthProvider } from "@nearform/simple-firebase-auth-frontend";
 
 function App() {
+  const auth = getAuth();
+  const config = {
+    googleAuthDomain: "nearform.com",
+    googleAuthOptions: {
+      scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+    },
+  };
+
   return (
-    <AuthProvider>
+    <AuthProvider auth={auth} config={config}>
       <YourComponents />
     </AuthProvider>
   );
@@ -301,33 +362,20 @@ const response = await fetchWithAuth(user)("/api/data", {
 });
 ```
 
-#### `auth`
-
-Direct access to the Firebase Auth instance. Use if you need low-level control.
-
-```javascript
-import { auth } from "@nearform/simple-firebase-auth-frontend";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-
-// Advanced usage
-const provider = new GoogleAuthProvider();
-await signInWithPopup(auth, provider);
-```
-
 ## Complete Example
 
 ```javascript
 import { createRoot } from "react-dom/client";
 import { initializeApp } from "firebase/app";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 import {
-  initAuth,
   AuthProvider,
   useAuthContext,
   fetchWithAuth,
 } from "@nearform/simple-firebase-auth-frontend";
 
 // Initialize Firebase
-initializeApp({
+const app = initializeApp({
   apiKey: "AIza...",
   authDomain: "myapp.firebaseapp.com",
   projectId: "myapp",
@@ -336,18 +384,15 @@ initializeApp({
   appId: "1:123456:web:abc123",
 });
 
-// Configure auth package
-initAuth({
-  googleAuthDomain: "nearform.com",
-  emulatorAuthUrl: "http://127.0.0.1:9099",
-  googleAuthOptions: {
-    scopes: ["https://www.googleapis.com/auth/userinfo.email"],
-    customParameters: {
-      hd: "nearform.com",
-      prompt: "select_account",
-    },
-  },
-});
+// Get Auth instance
+const auth = getAuth(app);
+
+// Connect to emulator if needed
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+    disableWarnings: true,
+  });
+}
 
 // SignIn Button Component
 function SignInButton() {
@@ -400,8 +445,19 @@ function DataDisplay() {
 
 // Main App
 function App() {
+  const config = {
+    googleAuthDomain: "nearform.com",
+    googleAuthOptions: {
+      scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+      customParameters: {
+        hd: "nearform.com",
+        prompt: "select_account",
+      },
+    },
+  };
+
   return (
-    <AuthProvider>
+    <AuthProvider auth={auth} config={config}>
       <div>
         <h1>My App</h1>
         <SignInButton />
@@ -423,15 +479,22 @@ createRoot(document.getElementById("root")).render(<App />);
 firebase emulators:start
 ```
 
-2. Configure auth to use emulator:
+2. Connect to the emulator in your code:
 
 ```javascript
-initAuth({
-  emulatorAuthUrl: "http://127.0.0.1:9099",
-});
+import { getAuth, connectAuthEmulator } from "firebase/auth";
+
+const auth = getAuth(app);
+
+// Connect to emulator (typically only in development)
+if (window.location.hostname === "localhost") {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099", {
+    disableWarnings: true,
+  });
+}
 ```
 
-3. The package automatically detects `localhost` and connects to the emulator.
+**Important:** Only call `connectAuthEmulator()` once, and only if the emulator is running. Make sure to call it before using the auth instance.
 
 ## Error Handling
 

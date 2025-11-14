@@ -8,24 +8,40 @@ const AuthContext = createContext(null);
  * Wraps your app to provide auth state to all components.
  *
  * @param {Object} props
+ * @param {import('firebase/auth').Auth} props.auth - Firebase Auth instance from getAuth()
+ * @param {Object} props.config - Configuration object
+ * @param {string|null} [props.config.googleAuthDomain] - Optional email domain restriction (e.g., "nearform.com")
+ * @param {Object} [props.config.googleAuthOptions] - Optional Google Auth Provider customization
+ * @param {string[]} [props.config.googleAuthOptions.scopes] - OAuth scopes to request
+ * @param {Object} [props.config.googleAuthOptions.customParameters] - Custom parameters for Google Auth (hd, prompt, etc.)
  * @param {React.ReactNode} props.children - Child components
  * @returns {React.ReactElement}
  *
  * @example
+ * import { getAuth } from 'firebase/auth';
  * import { AuthProvider } from '@nearform/simple-firebase-auth-frontend';
  *
  * function App() {
+ *   const auth = getAuth();
+ *   const config = {
+ *     googleAuthDomain: "nearform.com",
+ *     googleAuthOptions: {
+ *       scopes: ["https://www.googleapis.com/auth/userinfo.email"],
+ *       customParameters: { hd: "nearform.com" }
+ *     }
+ *   };
+ *
  *   return (
- *     <AuthProvider>
+ *     <AuthProvider auth={auth} config={config}>
  *       <YourApp />
  *     </AuthProvider>
  *   );
  * }
  */
-export function AuthProvider({ children }) {
-  const auth = useAuth();
+export function AuthProvider({ auth, config = {}, children }) {
+  const authState = useAuth(auth, config);
 
-  return createElement(AuthContext.Provider, { value: auth }, children);
+  return createElement(AuthContext.Provider, { value: authState }, children);
 }
 
 /**
