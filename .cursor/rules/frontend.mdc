@@ -1,6 +1,6 @@
 ---
 description: Guidelines for frontend code
-globs: packages/simple-firebase-auth-frontend
+globs: packages/simple-firebase-auth-frontend/**/*.js
 alwaysApply: false
 ---
 
