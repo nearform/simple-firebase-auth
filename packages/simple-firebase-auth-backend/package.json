@@ -1,6 +1,6 @@
 {
   "name": "@nearform/simple-firebase-auth-backend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simple Firebase authentication for Cloud Functions backend with Fastify",
   "license": "MIT",
   "repository": {
