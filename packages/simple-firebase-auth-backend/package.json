@@ -5,7 +5,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/nearform/simple-firebase-auth.git",
+    "url": "git+https://github.com/nearform/simple-firebase-auth.git",
     "directory": "packages/simple-firebase-auth-backend"
   },
   "homepage": "https://github.com/nearform/simple-firebase-auth/tree/main/packages/simple-firebase-auth-backend",

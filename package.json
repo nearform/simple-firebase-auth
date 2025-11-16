@@ -6,7 +6,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/nearform/simple-firebase-auth.git"
+    "url": "git+https://github.com/nearform/simple-firebase-auth.git"
   },
   "homepage": "https://github.com/nearform/simple-firebase-auth",
   "type": "module",
