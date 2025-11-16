@@ -1,5 +1,7 @@
 # Simple Firebase Auth
 
+[![Actions Status][actions_img]][actions_site]
+
 Simple Firebase authentication packages for React frontend and Cloud Functions backend.
 
 ## Packages
@@ -71,3 +73,6 @@ Backend works automatically with emulator when using `admin.initializeApp()` loc
 ## License
 
 MIT
+
+[actions_img]: https://github.com/neaform/simple-firebase-auth/workflows/CI/badge.svg
+[actions_site]: https://github.com/neaform/simple-firebase-auth/actions

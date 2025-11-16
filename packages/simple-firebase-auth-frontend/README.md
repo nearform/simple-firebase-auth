@@ -1,5 +1,7 @@
 # @nearform/simple-firebase-auth-frontend
 
+[![npm version][npm_img]][npm_site]
+
 Simple, opinionated Firebase authentication for React apps with Google Sign-In.
 
 ## Conventional (Installed) Usage
@@ -519,3 +521,6 @@ MIT
 ## Contributing
 
 Issues and PRs welcome at [https://github.com/nearform/simple-firebase-auth](https://github.com/nearform/simple-firebase-auth)
+
+[npm_img]: https://img.shields.io/npm/v/@nearform/simple-firebase-auth-frontend
+[npm_site]: https://www.npmjs.com/package/@nearform/simple-firebase-auth-frontend

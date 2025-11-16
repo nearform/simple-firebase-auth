@@ -1,5 +1,7 @@
 # @nearform/simple-firebase-auth-backend
 
+[![npm version][npm_img]][npm_site]
+
 Simple, opinionated Firebase authentication for Cloud Functions backend with Fastify.
 
 Use this if you have a simple app that needs Google-based auth and you want protected routes/APIs on the backend and you're OK with this specific mix:
@@ -300,3 +302,6 @@ MIT
 ## Contributing
 
 Issues and PRs welcome at [https://github.com/nearform/simple-firebase-auth](https://github.com/nearform/simple-firebase-auth)
+
+[npm_img]: https://img.shields.io/npm/v/@nearform/simple-firebase-auth-backend
+[npm_site]: https://www.npmjs.com/package/@nearform/simple-firebase-auth-backend

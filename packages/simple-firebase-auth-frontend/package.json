@@ -9,6 +9,9 @@
     "directory": "packages/simple-firebase-auth-frontend"
   },
   "homepage": "https://github.com/nearform/simple-firebase-auth/tree/main/packages/simple-firebase-auth-frontend",
+  "publishConfig": {
+    "provenance": true
+  },
   "type": "module",
   "main": "./src/index.js",
   "exports": {
