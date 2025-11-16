@@ -8,6 +8,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  id-token: write
 
 jobs:
   release:
@@ -31,8 +32,5 @@ jobs:
       - name: Create Release PR or Publish to npm
         id: changesets
         uses: changesets/action@v1
-        with:
-          version: npm run version
-          publish: npm run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
