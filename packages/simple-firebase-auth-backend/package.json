@@ -10,6 +10,7 @@
   },
   "homepage": "https://github.com/nearform/simple-firebase-auth/tree/main/packages/simple-firebase-auth-backend",
   "publishConfig": {
+    "access": "public",
     "provenance": true
   },
   "type": "module",
