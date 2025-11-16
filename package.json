@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Simple Firebase Authentication.",
   "license": "MIT",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "https://github.com/nearform/simple-firebase-auth.git"
