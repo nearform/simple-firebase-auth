@@ -30,7 +30,6 @@ jobs:
         with:
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
-          scope: "@nearform"
           auth-type: "oidc"
 
       - name: Upgrade npm for OIDC
@@ -42,12 +41,11 @@ jobs:
       - name: TODO REMOVE -- Debug stuff
         run: |
           echo "npm registry: $(npm config get registry)"
-          # ensure no leftover static token overrides the OIDC flow
-          echo "Clearing any NODE_AUTH_TOKEN to let OIDC work"
-          export NODE_AUTH_TOKEN=""
           npm config get //registry.npmjs.org/:_authToken || true
           npm whoami || true
           npm --version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release PR or Publish to npm
         id: changesets
