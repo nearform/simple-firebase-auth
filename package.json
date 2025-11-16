@@ -17,9 +17,12 @@
   "scripts": {
     "lint": "eslint . --fix",
     "pretty": "prettier . --write",
-    "format": "npm run lint && npm run pretty"
+    "format": "npm run lint && npm run pretty",
+    "check": "eslint . && prettier . --check"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.7",
+    "@svitejs/changesets-changelog-github-compact": "^1.2.0",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.6.2"
