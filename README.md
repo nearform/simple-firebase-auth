@@ -74,5 +74,5 @@ Backend works automatically with emulator when using `admin.initializeApp()` loc
 
 MIT
 
-[actions_img]: https://github.com/neaform/simple-firebase-auth/workflows/CI/badge.svg
-[actions_site]: https://github.com/neaform/simple-firebase-auth/actions
+[actions_img]: https://github.com/nearform/simple-firebase-auth/workflows/CI/badge.svg
+[actions_site]: https://github.com/nearform/simple-firebase-auth/actions
