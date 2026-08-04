@@ -39,7 +39,7 @@ const createFastify = async (functionsRewritePrefix = "/api") => {
  * Adapts a Fastify app to work with Firebase Cloud Functions.
  * Uses a singleton pattern to reuse the Fastify instance across invocations.
  *
- * IMPORTANT: You must call `admin.initializeApp()` before using this function.
+ * IMPORTANT: You must call `initializeApp()` before using this function.
  *
  * @param {Object} options - Configuration options
  * @param {Function} [options.addNoAuthRoutes] - Async function to register public routes
@@ -50,12 +50,12 @@ const createFastify = async (functionsRewritePrefix = "/api") => {
  *
  * @example
  * // In your Cloud Functions index.js
- * import admin from 'firebase-admin';
+ * import { initializeApp } from 'firebase-admin/app';
  * import { setGlobalOptions } from 'firebase-functions';
  * import { adaptFastify } from '@nearform/simple-firebase-auth-backend';
  *
  * // Initialize Firebase Admin (YOUR responsibility)
- * admin.initializeApp();
+ * initializeApp();
  * setGlobalOptions({ maxInstances: 5 });
  *
  * // Configure your API

@@ -126,11 +126,11 @@ Alternately, if you have a frontend application that gets ESM dependencies from 
     <script type="importmap">
       {
         "imports": {
-          "react": "https://esm.sh/react@18.3.1",
-          "react-dom/client": "https://esm.sh/react-dom@18.3.1/client",
-          "firebase/app": "https://esm.sh/firebase@11.0.1/app",
-          "firebase/auth": "https://esm.sh/firebase@11.0.1/auth",
-          "@nearform/simple-firebase-auth-frontend": "https://esm.sh/@nearform/simple-firebase-auth-frontend@0.1.0"
+          "react": "https://esm.sh/react@19.1.0",
+          "react-dom/client": "https://esm.sh/react-dom@19.1.0/client",
+          "firebase/app": "https://esm.sh/firebase@12.5.0/app",
+          "firebase/auth": "https://esm.sh/firebase@12.5.0/auth",
+          "@nearform/simple-firebase-auth-frontend": "https://esm.sh/@nearform/simple-firebase-auth-frontend@0.1.1"
         }
       }
     </script>
