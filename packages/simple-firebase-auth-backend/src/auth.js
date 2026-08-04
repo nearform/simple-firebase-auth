@@ -1,10 +1,10 @@
-import admin from "firebase-admin";
+import { getAuth } from "firebase-admin/auth";
 
 /**
  * Extracts and verifies the ID token from the Authorization header.
  *
  * @param {Object} request - The Fastify request object
- * @returns {Promise<admin.auth.DecodedIdToken>} The decoded ID token
+ * @returns {Promise<import('firebase-admin/auth').DecodedIdToken>} The decoded ID token
  * @throws {Error} If no authorization header is provided or token is invalid
  */
 export const getIdToken = async (request) => {
@@ -16,13 +16,13 @@ export const getIdToken = async (request) => {
   }
 
   const idToken = request.headers.authorization.split("Bearer ")[1];
-  return admin.auth().verifyIdToken(idToken);
+  return getAuth().verifyIdToken(idToken);
 };
 
 /**
  * Validates that the decoded token meets authentication requirements.
  *
- * @param {admin.auth.DecodedIdToken} decodedToken - The decoded ID token
+ * @param {import('firebase-admin/auth').DecodedIdToken} decodedToken - The decoded ID token
  * @param {string} [googleAuthDomain] - Optional email domain to restrict (e.g., "nearform.com")
  * @throws {Error} If token is invalid or email domain doesn't match
  */
@@ -47,7 +47,7 @@ export const isValidAuth = (decodedToken, googleAuthDomain) => {
  *
  * @param {Object} request - The Fastify request object
  * @param {string} [googleAuthDomain] - Optional email domain to restrict (e.g., "nearform.com")
- * @returns {Promise<admin.auth.DecodedIdToken>} The decoded ID token
+ * @returns {Promise<import('firebase-admin/auth').DecodedIdToken>} The decoded ID token
  * @throws {Error} If authorization fails
  *
  * @example

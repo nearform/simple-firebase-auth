@@ -18,13 +18,15 @@
     "lint": "eslint . --fix",
     "pretty": "prettier . --write",
     "format": "npm run lint && npm run pretty",
-    "check": "eslint . && prettier . --check"
+    "check": "eslint . && prettier . --check",
+    "dep:check": "npx npm-check-updates"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.7",
+    "@changesets/cli": "^2.31.1",
+    "@eslint/js": "^10.0.1",
     "@svitejs/changesets-changelog-github-compact": "^1.2.0",
-    "eslint": "^9.39.1",
+    "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
-    "prettier": "^3.6.2"
+    "prettier": "^3.9.6"
   }
 }

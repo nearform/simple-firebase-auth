@@ -28,14 +28,14 @@ $ npm install firebase-admin firebase-functions fastify @fastify/auth
 
 You'll need to set up a Firebase project with authentication and cloud functions, which we won't cover here.
 
-**IMPORTANT**: You must initialize Firebase Admin yourself. This package does NOT call `admin.initializeApp()`.
+**IMPORTANT**: You must initialize Firebase Admin yourself. This package does NOT call `initializeApp()`.
 
 ```javascript
-import admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
 import { setGlobalOptions } from "firebase-functions";
 
 // YOU must do this before using the package
-admin.initializeApp();
+initializeApp();
 setGlobalOptions({ maxInstances: 5 });
 ```
 
@@ -43,10 +43,10 @@ setGlobalOptions({ maxInstances: 5 });
 
 ```javascript
 // Step 1: Initialize Firebase Admin (YOUR responsibility)
-import admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
 import { setGlobalOptions } from "firebase-functions";
 
-admin.initializeApp();
+initializeApp();
 setGlobalOptions({ maxInstances: 5 });
 
 // Step 2: Use the Fastify adapter
@@ -247,12 +247,12 @@ Your frontend should connect to the emulator (see frontend package documentation
 
 ```javascript
 // functions/index.js
-import admin from "firebase-admin";
+import { initializeApp } from "firebase-admin/app";
 import { setGlobalOptions } from "firebase-functions";
 import { adaptFastify } from "@nearform/simple-firebase-auth-backend";
 
 // Initialize Firebase Admin
-admin.initializeApp();
+initializeApp();
 setGlobalOptions({
   maxInstances: 5,
   region: "us-central1",
